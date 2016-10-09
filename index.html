@@ -1,11 +1,35 @@
 <html>
  <head>
-	<script type="text/javascript" src="./script.js"></script>	
+		
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="./deps/knockout-latest.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script type="text/javascript" src="tweet.json"></script>
+	<script type="text/javascript" src="script.js"></script>
 	<title>Twitter Feeds</title>
+	<style>
+	.bs-callout-info {
+			  border-left-color: #1b809e;
+	}
+	.bs-callout {
+		padding: 20px;
+		margin: 20px 0;
+		border: 1px solid #eee;
+		border-left-width: 5px;
+		border-radius: 3px;
+	}
+	.icon{
+		color:#aab8c2;
+		cursor:pointer;
+		margin-right:16px;		
+	}
+	.tweetbox{
+		border: 1px solid #e1e8ed;
+	}
+	</style>
  </head>
  <body onload="loadData()">
 		<nav class="navbar navbar-inverse">
@@ -16,16 +40,51 @@
         			<span class="icon-bar"></span>
         			<span class="icon-bar"></span>
       				</button>
-					<a class="navbar-brand" href="#" onclick="loadData()"> Twitter Feeds </a>
+					<a class="navbar-brand" href="#" onclick="loadData()">
+						<i class="fa fa-twitter icon fa-lg" data-toggle="tooltip" style="color:#1da1f2" title="Reply" data-placement="top" aria-hidden="true"></i>	
+						Twitter Timeline
+					</a>
     			</div>
 	  		</div>
 		</nav>
-    
-		<div class="container-fluid" id="container">
-		
-		</div> 
-		<div class="row" id="pagination">
-		</div>	
+			<div id="tweets" class="container" data-bind="foreach: tweets">
+					<div class="row clearfix tweetbox" >
+						<div class="col-md-1 text-right" style="margin-top: 20px;margin-bottom:20px">
+								<img class="img-rounded" data-bind="attr: {src: user_img}" width="60" height="60"/>	
+						</div>
+						<div class="col-md-11" style="margin-top: 20px;margin-bootm:20px;">
+							<div class="row">
+								<div class="col-md-12">			
+										<strong data-bind="text: name"> </strong><i>@<span data-bind="text: username"></span></i>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">			
+										<p data-bind="text: text"></p>
+								</div>
+							</div>
+							<div class="row" data-bind="visisble: hasImage" style="margin-bottom:20px">
+								<div class="col-md-12">			
+										<img data-bind="attr: {src : imgUrl}"/>
+								</div>
+							</div>
+							<div class="row" style="margin-bottom:20px">
+								<div class="col-md-1">
+									<i class="fa fa-reply icon fa-lg" data-toggle="tooltip" title="Reply" data-placement="top" aria-hidden="true"></i>	
+								</div>
+								<div class="col-md-1">
+										<i class="fa fa-retweet icon fa-lg" data-toggle="tooltip" title="Retweet" data-placement="top" aria-hidden="true"></i><span data-bind="text: retweet_count" style="color: #aab8c2;font-size: 12px;font-weight: bold;"></span>
+								</div>
+								<div class="col-md-2">
+										<i class="fa fa-heart icon fa-lg" data-toggle="tooltip" title="Like" data-placement="top"aria-hidden="true"></i><span data-bind="text: favorite_count " style="color: #aab8c2;font-size: 12px;font-weight: bold;"></span>
+								</div>
+								<div class="col-md-1">
+									<i class="fa fa-ellipsis-h icon fa-lg" data-toggle="tooltip" title="More" data-placement="top"aria-hidden="true"></i>
+								</div>
+							</div>
+						</div>
+					</div>		
+			</div> 
  </body>
  
 
